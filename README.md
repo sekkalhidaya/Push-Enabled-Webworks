@@ -67,10 +67,54 @@ What do you need as authentification data to built the Push Enabled is: the Init
          xmlHttp.send();
       };
   
-  2. Call the Invocation methods and API, to invoke the BlackBerry device: 
-  
-  
-  3. Build your xml file (config.xml):
+  2. Create a push service using the PPG urls and the authentification dada provided by Rim, 
+
+        PushCapture.prototype.createPushService = function() {
+            var ops;
+            if (sample.pushcapture.usingpublicppg) {
+                // Consumer application using public push
+                ops = {
+                    invokeTargetId : sample.pushcapture.invokeTargetIdPush,
+                    appId : sample.pushcapture.appid,
+                    ppgUrl : sample.pushcapture.ppgurl
+                };
+            } else {
+                // Enterprise application using enterprise push
+                if (sample.pushcapture.usesdkaspi) {
+                    // If we're using the Push Service SDK for our Push Initiator
+                    // implementation, we will have specified our own application ID to use
+                    ops = {
+                        invokeTargetId : sample.pushcapture.invokeTargetIdPush,
+                        appId : sample.pushcapture.appid
+                    };
+                } else {
+                    ops = {
+                        invokeTargetId : sample.pushcapture.invokeTargetIdPush
+                    };
+                }
+            }
+    
+            blackberry.push.PushService
+                    .create(ops, sample.pushcapture.successCreatePushService, sample.pushcapture.failCreatePushService,
+                            sample.pushcapture.onSimChange, sample.pushcapture.onPushTransportReady);
+       };
+
+
+
+  3. Call the Invocation methods and API, to invoke the BlackBerry device: 
+
+          /**
+          * Invoke target ID for receiving new push notifications.
+          */
+          this.invokeTargetIdPush = "sample.pushcapture.invoke.push";
+          
+          /**
+          * Invoke target ID when clicking on a notification in the BlackBerry Hub opens the app.
+          */
+          this.invokeTargetIdOpen = "sample.pushcapture.invoke.open";
+
+
+  4. Build your xml file (config.xml):
          Add a reference to the blackberry.push feature.
          Add a feature tag for blackberry.invoked. This feature tag relates to the handling of invoke events. A push message arrives at your application as an invoke event.
          If you are using the Push Service with the BlackBerry Internet Service, add a permission statement for the Push Service so that your application can work with push messages.
@@ -94,7 +138,7 @@ What do you need as authentification data to built the Push Enabled is: the Init
            </rim:invoke-target>
  
   
-  4. The push enabled is a client side applicatoin that you need to load it in your device to be able to test it and make it work.  
+  5. The push enabled is a client side applicatoin that you need to load it in your device to be able to test it and make it work.  
      After that your Push Enabled will be ready to receive pushes from the Push Initiator and Invoke your device (you will do that by going to you Server side application and send pushes).   
      If you didn't built yet your server side application (Initiator Push) you can visit: https://github.com/sekkalhidaya/Push-Initiator-Webworks/edit/master/README.md 
     
