@@ -25,9 +25,8 @@ What do you need as authentification data to built the Push Enabled is: the Init
   
   The token that we already created (that refers to the device and the Push Enabled application) will be send to the Push Initiator so that the Push Initiator can use the token to send pushes to the device that will be recieved buy the push enabled application. 
 
-    sample.pushcapture.constructor.prototype.subscribeToPushInitiator = function(token) {
+      sample.pushcapture.constructor.prototype.subscribeToPushInitiator = function(token) {
         document.getElementById("progressinfo").innerHTML = "Subscribing to Push Initiator...";
-             
         var type;
         if (sample.pushcapture.usingpublicppg) {
             type = "public";
