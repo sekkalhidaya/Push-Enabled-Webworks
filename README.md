@@ -33,7 +33,6 @@ What do you need as authentification data to built the Push Enabled is: the Init
         } else {
             type = "bds";
         }
-         
         var username = document.getElementById("reguserid").value.trim();
         var password = document.getElementById("regpwd").value.trim();
         var address = token;
