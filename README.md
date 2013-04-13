@@ -66,7 +66,7 @@ What do you need as authentification data to built the Push Enabled is: the Init
         };
      
          xmlHttp.send();
-     };
+      };
   
   2. Call the Invocation methods and API, to invoke the BlackBerry device: 
   
