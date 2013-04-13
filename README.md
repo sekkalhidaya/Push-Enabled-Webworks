@@ -25,46 +25,46 @@ What do you need as authentification data to built the Push Enabled is: the Init
   
   The token that we already created (that refers to the device and the Push Enabled application) will be send to the Push Initiator so that the Push Initiator can use the token to send pushes to the device that will be recieved buy the push enabled application. 
 
-      sample.pushcapture.constructor.prototype.subscribeToPushInitiator = function(token) {
-        document.getElementById("progressinfo").innerHTML = "Subscribing to Push Initiator...";
-        var type;
-        if (sample.pushcapture.usingpublicppg) {
-            type = "public";
-        } else {
-            type = "bds";
-        }
-        var username = document.getElementById("reguserid").value.trim();
-        var password = document.getElementById("regpwd").value.trim();
-        var address = token;
-        var osversion = blackberry.system.softwareVersion;
-        var model = blackberry.system.hardwareId;
-     
-        var params = "appid=" + encodeURIComponent(sample.pushcapture.appid)
-                      + "&";
-        params += "address=" + address + "&";
-        params += "osversion=" + osversion + "&";
-        params += "model=" + model + "&";
-        params += "username=" + encodeURIComponent(username) + "&";
-        params += "password=" + encodeURIComponent(password) + "&";
-        params += "type=" + type;
-     
-        var subscribeUrl = sample.pushcapture.piurl + "/subscribe?" + params;
-        var xmlHttp = new XMLHttpRequest();
-     
-        xmlHttp.open("GET", subscribeUrl);
-     
-        xmlHttp.onreadystatechange = function() {
-            if (xmlHttp.readyState == 4) {
-                var status = xmlHttp.status;
-                var returnCode = xmlHttp.responseText;
-     
-                sample.pushcapture.pushInitiatorSubscribeHandler(status,
-                       returnCode);
+          sample.pushcapture.constructor.prototype.subscribeToPushInitiator = function(token) {
+            document.getElementById("progressinfo").innerHTML = "Subscribing to Push Initiator...";
+            var type;
+            if (sample.pushcapture.usingpublicppg) {
+                type = "public";
+            } else {
+                type = "bds";
             }
-        };
-     
-         xmlHttp.send();
-      };
+            var username = document.getElementById("reguserid").value.trim();
+            var password = document.getElementById("regpwd").value.trim();
+            var address = token;
+            var osversion = blackberry.system.softwareVersion;
+            var model = blackberry.system.hardwareId;
+         
+            var params = "appid=" + encodeURIComponent(sample.pushcapture.appid)
+                          + "&";
+            params += "address=" + address + "&";
+            params += "osversion=" + osversion + "&";
+            params += "model=" + model + "&";
+            params += "username=" + encodeURIComponent(username) + "&";
+            params += "password=" + encodeURIComponent(password) + "&";
+            params += "type=" + type;
+         
+            var subscribeUrl = sample.pushcapture.piurl + "/subscribe?" + params;
+            var xmlHttp = new XMLHttpRequest();
+         
+            xmlHttp.open("GET", subscribeUrl);
+         
+            xmlHttp.onreadystatechange = function() {
+                if (xmlHttp.readyState == 4) {
+                    var status = xmlHttp.status;
+                    var returnCode = xmlHttp.responseText;
+         
+                    sample.pushcapture.pushInitiatorSubscribeHandler(status,
+                           returnCode);
+                }
+            };
+         
+             xmlHttp.send();
+          };
   
   2. Create a push service using the PPG urls and the authentification dada provided by Rim, 
 
