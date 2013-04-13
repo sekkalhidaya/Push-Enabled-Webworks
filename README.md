@@ -8,22 +8,22 @@ What do you need as authentification data to built the Push Enabled is: the Init
   1. First you need to build a channel to communicate between the device (Push Enabled) and Server (Push Initiator),
      Create a channel to the PPG (Push Proxy Getway) that include the create channel Callback, this one will return a token that refer to a device and the push enabled application. 
 
-    sample.pushcapture.pushService.createChannel(sample.pushcapture.createChannelCallback);
+      sample.pushcapture.pushService.createChannel(sample.pushcapture.createChannelCallback);
 
-    sample.pushcapture.constructor.prototype.createChannelCallback = function(result, token) {
-      if (result == blackberry.push.PushService.SUCCESS) {
-          if (sample.pushcapture.usesdkaspi) {
-              // The Push Service SDK is being used, so attempt to subscribe to the Push Initiator
-                 sample.pushcapture.subscribeToPushInitiator(token);
-          } else {
-              // The Push Service SDK is not being used, jump to displaying a success
-                 sample.pushcapture.successfulRegistration();
-          }
-       }
-    }
+      sample.pushcapture.constructor.prototype.createChannelCallback = function(result, token) {
+        if (result == blackberry.push.PushService.SUCCESS) {
+            if (sample.pushcapture.usesdkaspi) {
+                // The Push Service SDK is being used, so attempt to subscribe to the Push Initiator
+                   sample.pushcapture.subscribeToPushInitiator(token);
+            } else {
+                // The Push Service SDK is not being used, jump to displaying a success
+                   sample.pushcapture.successfulRegistration();
+            }
+         }
+      }
   
   
-The token that we already created (that refers to the device and the Push Enabled application) will be send to the Push Initiator so that the Push Initiator can use the token to send pushes to the device that will be recieved buy the push enabled application. 
+  The token that we already created (that refers to the device and the Push Enabled application) will be send to the Push Initiator so that the Push Initiator can use the token to send pushes to the device that will be recieved buy the push enabled application. 
 
     sample.pushcapture.constructor.prototype.subscribeToPushInitiator = function(token) {
         document.getElementById("progressinfo").innerHTML = "Subscribing to Push Initiator...";
@@ -67,6 +67,38 @@ The token that we already created (that refers to the device and the Push Enable
      
         xmlHttp.send();
     };
+  
+  2. Call the Invocation methods and API, to invoke the BlackBerry device: 
+  
+  
+  3. Build your xml file (config.xml):
+         Add a reference to the blackberry.push feature.
+         Add a feature tag for blackberry.invoked. This feature tag relates to the handling of invoke events. A push message arrives at your application as an invoke event.
+         If you are using the Push Service with the BlackBerry Internet Service, add a permission statement for the Push Service so that your application can work with push messages.
+         Add an entry for the invoke events that your application receives for push messages.
+
+          <feature id=”blackberry.push” />
+          <feature id=“blackberry.invoked” />
+          <rim:permissions>
+               <rim:permit system=”true”>_sys_use_consumer_push</rim:permit>
+          </rim:permissions>
+          <!-- config.xml -->
+          <!-- Need to put an invoke entry here for push. -->    
+          <!-- The id here must match the invokeTargetId passed in -->
+          <!-- one of the ops to blackberry.push.PushService.create. -->    
+           <rim:invoke-target id="sample.pushreceiver.invoke.push">      
+             <type>APPLICATION</type>      
+             <filter>        
+               <action>bb.action.PUSH</action>
+               <mime-type>application/vnd.push</mime-type>      
+             </filter>    
+           </rim:invoke-target>
+ 
+  
+  4. The push enabled is a client side applicatoin that you need to load it in your device to be able to test it and make it work.  
+     After that your Push Enabled will be ready to receive pushes from the Push Initiator and Invoke your device (you will do that by going to you Server side application and send pushes).   
+     If you didn't built yet your server side application (Initiator Push) you can visit: https://github.com/sekkalhidaya/Push-Initiator-Webworks/edit/master/README.md 
     
-    
-    
+ 
+For more clarification about the Push Enabled you can visit: https://github.com/blackberry/BB10-WebWorks-Samples/tree/master/pushCapture     
+For more clarification about the invoke methode (invication) you can visit: http://developer.blackberry.com/html5/api/blackberry.invoke.html 
