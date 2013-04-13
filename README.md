@@ -8,19 +8,19 @@ What do you need as authentification data to built the Push Enabled is: the Init
   1. First you need to build a channel to communicate between the device (Push Enabled) and Server (Push Initiator),
      Create a channel to the PPG (Push Proxy Getway) that include the create channel Callback, this one will return a token that refer to a device and the push enabled application. 
 
-      sample.pushcapture.pushService.createChannel(sample.pushcapture.createChannelCallback);
+        sample.pushcapture.pushService.createChannel(sample.pushcapture.createChannelCallback);
 
-      sample.pushcapture.constructor.prototype.createChannelCallback = function(result, token) {
-        if (result == blackberry.push.PushService.SUCCESS) {
-            if (sample.pushcapture.usesdkaspi) {
-                // The Push Service SDK is being used, so attempt to subscribe to the Push Initiator
-                   sample.pushcapture.subscribeToPushInitiator(token);
-            } else {
-                // The Push Service SDK is not being used, jump to displaying a success
-                   sample.pushcapture.successfulRegistration();
-            }
-         }
-      }
+        sample.pushcapture.constructor.prototype.createChannelCallback = function(result, token) {
+          if (result == blackberry.push.PushService.SUCCESS) {
+              if (sample.pushcapture.usesdkaspi) {
+                  // The Push Service SDK is being used, so attempt to subscribe to the Push Initiator
+                     sample.pushcapture.subscribeToPushInitiator(token);
+              } else {
+                  // The Push Service SDK is not being used, jump to displaying a success
+                     sample.pushcapture.successfulRegistration();
+              }
+           }
+        }
   
   
   The token that we already created (that refers to the device and the Push Enabled application) will be send to the Push Initiator so that the Push Initiator can use the token to send pushes to the device that will be recieved buy the push enabled application. 
@@ -65,8 +65,8 @@ What do you need as authentification data to built the Push Enabled is: the Init
             }
         };
      
-        xmlHttp.send();
-    };
+         xmlHttp.send();
+     };
   
   2. Call the Invocation methods and API, to invoke the BlackBerry device: 
   
